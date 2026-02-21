@@ -11,8 +11,6 @@ COPY users.xml /etc/clickhouse-server/users.xml
 COPY users.d /etc/clickhouse-server/users.d
 
 # Ensure correct permissions
-USER root
 RUN chown -R clickhouse:clickhouse /etc/clickhouse-server/
-USER clickhouse
 
 EXPOSE 8123 9000 8443 9440

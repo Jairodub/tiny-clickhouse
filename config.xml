@@ -31,8 +31,8 @@
              It is useful for debugging shutdown issues -->
         <!-- <shutdown_level>trace</shutdown_level> -->
 
-        <log>/var/log/clickhouse-server/clickhouse-server.log</log>
-        <errorlog>/var/log/clickhouse-server/clickhouse-server.err.log</errorlog>
+        <!-- <log>/var/log/clickhouse-server/clickhouse-server.log</log> -->
+        <!-- <errorlog>/var/log/clickhouse-server/clickhouse-server.err.log</errorlog> -->
         <!-- Rotation policy
              See https://github.com/pocoproject/poco/blob/poco-1.9.4-release/Foundation/include/Poco/FileChannel.h#L54-L85
           -->
