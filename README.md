@@ -1,4 +1,8 @@
 # ClickHouse 1GB RAM Template
+
+> [!WARNING]
+> **UNSTABLE / WORK-IN-PROGRESS**: This repository is currently in an active testing and debugging phase. It's not yet stable for general use or production deployment.
+
 This repository contains a pre-tuned configuration for running **ClickHouse 26.1** on a **1GB RAM** machine (e.g., GCE e2-micro, AWS t3.micro, or Railway's smallest instance).
 
 ## Features
