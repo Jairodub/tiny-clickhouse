@@ -2,6 +2,9 @@ services:
   clickhouse:
     build: .
     container_name: clickhouse-1gb
+    # Environment variables
+    environment:
+      - CLICKHOUSE_PASSWORD=${CLICKHOUSE_PASSWORD:-clickhouse2}
     # Memory limits (crucial for 1GB RAM VMs)
     deploy:
       resources:
