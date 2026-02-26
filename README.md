@@ -31,7 +31,7 @@ This template is tested on platforms like **Railway** as a container-native depl
 1. **SSL/HTTPS**: Most cloud providers provide automated HTTPS termination. This template listens on HTTP (8123) by default, allowing the platform proxy to handle secure traffic.
 2. **Configuration**: Point the platform to the `Dockerfile`.
 3. **Variables**: Set the `CLICKHOUSE_PASSWORD` environment variable in the platform's dashboard.
-4. **Volume**: Mount volume to `var\lib\clickhouse` to before deployment. Deployment may fail if there is no volume mounted.
+4. **Volume**: Mount volume to `var\lib\clickhouse` before deploying. Deployment may fail if no volume is mounted.
 
 ## Network & SSL
 - **HTTP**: Default port `8123`.
