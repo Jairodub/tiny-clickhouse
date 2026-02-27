@@ -39,23 +39,42 @@ This template is tested on platforms like **Railway** as a container-native depl
 - **HTTPS**: Disabled by default in `config.xml`. If you are NOT using a proxy/load balancer that terminates SSL, you must uncomment `<https_port>8443</https_port>` and provide valid certificates in `/etc/clickhouse-server/server.crt`.
 
 ## Real-world Performance & Testing
-This configuration has been stress-tested in a **Google Cloud (GCP)** environment (e2-micro instance) using the **default Ubuntu image provided by GCP** with the following parameters:
+
+### Scenario A: Google Cloud (e2-micro)
+This configuration was stress-tested in a **Google Cloud (GCP)** environment using the **default Ubuntu image** with the following parameters:
 - **Data Volume**: 227 million rows of real-life production data.
 - **Ingestion**: Stably ingested without OOM crashes using sequential streaming.
 - **Resource Constraints**:
-  - **Host OS**: **Ubuntu (GCP Default Image)**.
+  - **Host OS**: Ubuntu (GCP Default Image).
   - **CPU**: 2 vCPUs (shared/burstable).
   - **RAM**: 1GB physical memory.
   - **Storage**: 30GB (Standard/Balanced Persistent Disk).
     - **Observed Peak Usage**: ~13GB - 17GB total system usage.
     - **Database Footprint**: ~4.8GB for 227M rows (highly compressed).
 
+### Scenario B: Local Docker (Resource Constrained)
+Validated on a local machine using the **850MB RAM limit** defined in `docker-compose.yaml`.
+- **Data Volume**: 227 million rows.
+- **Ingestion Time**: **25.98 minutes**.
+- **Average Ingest Speed**: **~145,600 rows/sec**.
+- **CPU Usage**: Peaked at ~25-30% during heavy load.
+- **Resource Constraints**:
+  - **Host OS**: Ubuntu (Local environment).
+  - **RAM Limit**: 850MB (Docker-enforced).
+  - **Database Footprint**: **5.03 GB** for 227M rows (LZ4 compression).
+  - **Stability**: Tested with heavy group-by and distinct count aggregations without high-RAM crashes.
+
+### Performance Breakdown
+- **Memory Footprint**: ClickHouse process stable at **520MB - 650MB** RAM throughout full-volume operations.
+- **Storage Strategy**: Disk-spilled `MergeTree` ensures large merges don't OOM the small instance.
+
 ## Customizations Performed
 - `mark_cache_size`: 33554432 (32MB)
 - `uncompressed_cache_size`: 33554432 (32MB)
-- `max_memory_usage`: (in users.xml) 300000000 (300MB per query)
-- `max_threads`: 1 (Ensures stability on single-core instances)
-- `max_bytes_before_external_group_by`: 2147483648 (Spills large aggregations to disk safely)
+- `max_memory_usage`: (in users.xml) Capped per profile.
+- `max_threads`: 2 (Balanced for 1-2 vCPU instances)
+- `max_bytes_before_external_group_by`: 209715200 (200MB - Forces disk-spilling earlier to prevent Docker OOM kills on 1GB RAM)
+- `max_bytes_before_external_sort`: 209715200 (200MB)
 
 ## Managing Credentials
 The configuration pulls the password from the `CLICKHOUSE_PASSWORD` environment variable. 

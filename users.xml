@@ -12,8 +12,8 @@
             <max_execution_time>600</max_execution_time>
             <input_format_parallel_parsing>0</input_format_parallel_parsing>
             <output_format_parallel_formatting>0</output_format_parallel_formatting>
-            <max_bytes_before_external_group_by>3221225472</max_bytes_before_external_group_by> <!-- 3 GB -->
-            <max_bytes_before_external_sort>3221225472</max_bytes_before_external_sort> <!-- 3 GB -->
+            <max_bytes_before_external_group_by>209715200</max_bytes_before_external_group_by> <!-- 200 MB - Crucial for 1GB RAM VM -->
+            <max_bytes_before_external_sort>209715200</max_bytes_before_external_sort> <!-- 200 MB - Crucial for 1GB RAM VM -->
         </default>
 
         <!-- Profile that allows only read queries. -->
